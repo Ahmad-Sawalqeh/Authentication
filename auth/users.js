@@ -1,54 +1,51 @@
+/* eslint-disable new-cap */
 /* eslint-disable strict */
 'use strict';
 
-// to encrypt the password
+require('dotenv').config();
+const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
-// make the output as a json format
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'); // output as a json format
+// let user = require('./schema.js');
 
-let SECRET='NAR9288';
-// const dotenv = require('dotenv');
-// dotenv.config();
+const User = mongoose.Schema({
+  username: { type: String, required: true },
+  password: { type: Number, required: true },
+});
 
-// save all users
-let db = {};
-// each user information
-let users = {};
+// {
+//   "username": "ahmad",
+//   "password": "123456789"
+// }
 
-users.save = async function(userObjInfo){
+let SECRET = process.env.SECRET;
 
-  // check if the user on our db
-  if(!db[userObjInfo.username]){
-    // hash the password and save it on our db by username object
-    // 5 it is the complexity or salt for hash complication hashing
-    userObjInfo.password = await bcryptjs.hash(userObjInfo.password,5);
+User.pre('save', async function(){
+  // if (this.isModified('password')) {
+  // hash the password and save it on our db by username object
+  // this.password = await bcryptjs.hash(this.password, 5);
+  // }
+  try {
+    this.password = await bcryptjs.hash(this.password, 5);
+  }catch(e){
+    // throw new Error('did not save');
+    return Promise.reject();
+  }
+});
 
-    // save the whole userinfo( username, password ) into DB by the username
-    db[userObjInfo.username] = userObjInfo;
+User.statics.authenticateUser = async function(user,pass){
+  let valid = bcryptjs.compare(pass,this.password);
+  return valid ? user : Promise.reject();
+};
 
-    return userObjInfo;
-  } // end of if statement
-
-  return Promise.reject();
-
-} // end of users save function
-
-
-// give auth to user 
-users.authenticateUser = async function(user,pass){
-  // bring the user's data from DB then check the validity of it
-  let valid = await bcryptjs.compare(pass,db[user].password);
-  // if user exist  return it , otherwise reject
-  return valid ? db[user]:Promise.reject();
-} // end of authenticateUser function
-
-// generate a new token
-users.genToken = function(user){
-  let token = jwt.sign({ username:user.username},SECRET);
+User.methods.generatToken = function(){
+  let username = {
+    id: this._id,
+  };
+  let token = jwt.sign(username, SECRET);
   return token;
-} // end of genToken function
+};
 
-// make the db as a property from users
-users.list = () => db;
+User.methods.list = () => this.schema.find({});
 
-module.exports = users;
+module.exports = mongoose.model('User', User);

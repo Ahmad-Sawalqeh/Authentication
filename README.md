@@ -6,17 +6,18 @@
 
 ### Links and Resources
 
-- [submission PR]()
+- [submission PR](https://github.com/Ahmad-Sawalqeh/Authentication/pull/1)
 - [ci/cd]() (GitHub Actions)
 
 ### Setup
 run `npm i`
-install the needed Dependencies `JEST, ESLINT, CORS, DOTENV, MORGAN, MONGOOSE, EXPRESS`.
+install the needed Dependencies `JEST, ESLINT, CORS, DOTENV, MORGAN, MONGOOSE, EXPRESS`.<br>
+also you need `base-64`, `bcryptjs` and `jsonwwebtoken` for authentication sign-in/sign-up.
 
 `.env` requirements (where applicable)
 
-* `PORT` - Port Number
-* `MONGODB_URI` - URL to the running mongo instance/db
+* `PORT` - 3000
+* `MONGODB_URI` - 'mongodb://localhost:27017/class11'
 
 #### How to initialize/run your application (where applicable)
 run `npm test` to check all test.
@@ -28,4 +29,4 @@ run `npm test` to check all test.
 
   # UML
 
-  ![](./assets/)
+  ![](./assets/class11.jpeg)
