@@ -22,6 +22,7 @@
   "homepage": "https://github.com/Ahmad-Sawalqeh/Authentication#readme",
   "dependencies": {
     "base-64": "^0.1.0",
+    "bcrypt": "^3.0.8",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",

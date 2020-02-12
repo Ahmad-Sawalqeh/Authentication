@@ -1,22 +1,23 @@
 /* eslint-disable strict */
 'use strict';
 
+require('dotenv').config();
 const base64 = require('base-64');
-const users = require('./users.js');
+const User = require('./users.js');
+// const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
   if (!req.headers.authorization) {
-    next(' Invalid Login Process ');
+    next('invalid login Process');
     return;
   }
-  let auth2ndElement = req.headers.authorization;
-  let basic = auth2ndElement.split(' ').pop();
+  let basic = req.headers.authorization.split(' ').pop();
   let [user, pass] = base64.decode(basic).split(':');
-  users.authenticateUser(user, pass)
-    .then(isValidUser => {
-      req.token = users.generatToken(isValidUser);
+  let auth = { user, pass };
+  User.authenticater(auth)
+    .then(validUser => {
+      req.token = User.tokenGenerator(validUser);
+      next();
     })
-    .catch(err => {
-      next(' Invalid User Error => ', err);
-    });
+    .catch(() => next('invalid login'));
 };
