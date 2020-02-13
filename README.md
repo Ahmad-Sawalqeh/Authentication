@@ -17,10 +17,10 @@ also you need `base-64`, `bcryptjs` and `jsonwwebtoken` for authentication/autho
 `.env` requirements (where applicable)
 
 * `PORT` - 3000
-* `MONGODB_URI` - 'mongodb://localhost:27017/class11'
-* `SECRET` - ************
-* `CLIENT_ID` - ********************
-* `CLIENT_SECRET` - ****************************************
+* `MONGODB_URI` - 'mongodb://localhost:27017/class12'
+* `SECRET` - `MYOWNSECRET`
+* `CLIENT_ID` - 6adabe1798d74605bcd7
+* `CLIENT_SECRET` - 9cf2052a1defe82ad3b91f1c7e852343a2b91dfb
 * `API_SERVER` - http://localhost:3000/oauth
 
 #### How to initialize/run your application (where applicable)
