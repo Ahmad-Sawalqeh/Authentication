@@ -1,0 +1,41 @@
+*{
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container{
+  width: 970px;
+  padding: 20px;
+  text-align: center;
+}
+
+h1{
+  font: 50px;
+  margin-bottom: 30px;
+}
+
+div{
+  font-size: 25px;  
+  font-weight: 18px;
+}
+
+a{
+  text-decoration: none;
+  font-size: 30px;
+  font-weight: 40px;
+  color: #4078c0;
+  transition: .5s;
+}
+
+a:hover{
+  text-decoration: underline;
+}
+
+.git{
+  color: #6cc644;
+}
+
+.acc{
+  color: #333;
+}

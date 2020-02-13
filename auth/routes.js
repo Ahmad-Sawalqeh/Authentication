@@ -8,11 +8,13 @@ const router = express.Router();
 // Auth
 // const bcrypt = require('bcrypt');
 const basicAuth = require('./basic-mid-auth.js');
+const oauthMiddle = require('../oauth/oauth-middleware.js');
 const User = require('./users.js');
 
 router.post('/signup', signUp);
 router.post('/signin', basicAuth, signIn);
-// router.get('/users', basicAuth, usersList);
+router.get('/user', getUser);
+router.get('/oauth', oauthMiddle, oauth);
 
 function signUp (req, res, next){
   let users = new User(req.body);
@@ -27,12 +29,16 @@ function signIn (req,res){
   res.status(200).send(req.token);
 }
 
-// function usersList (req,res){
-//   // res.status(200).json(User.list);
-//   User.find()
-//     .then(records =>{
-//       res.status(200).send(records);
-//     });
-// }
+function getUser(req, res, next) {
+  User.list()
+    .then(data => {
+      res.status(200).json(data);
+    });
+}
+
+function oauth(req, res, next) {
+  // console.log('hello',req.body);
+  res.json(req.token);
+}
 
 module.exports = router;

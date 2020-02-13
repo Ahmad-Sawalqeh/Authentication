@@ -45,7 +45,7 @@ User.methods.passwordComparator = function (pass) {
     });
 };
 
-User.statics.tokenGenerator = function (user) {
+User.methods.tokenGenerator = function (user) {
   let token = {
     id: user._id,
   };

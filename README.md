@@ -1,4 +1,4 @@
-# Authentication
+# OAuth
 
 # LAB - Class 11
 
@@ -6,18 +6,22 @@
 
 ### Links and Resources
 
-- [submission PR](https://github.com/Ahmad-Sawalqeh/Authentication/pull/1)
+- [submission PR](https://github.com/Ahmad-Sawalqeh/Authentication/pull/2)
 - [ci/cd]() (GitHub Actions)
 
 ### Setup
 run `npm i`
 install the needed Dependencies `JEST, ESLINT, CORS, DOTENV, MORGAN, MONGOOSE, EXPRESS`.<br>
-also you need `base-64`, `bcryptjs` and `jsonwwebtoken` for authentication sign-in/sign-up.
+also you need `base-64`, `bcryptjs` and `jsonwwebtoken` for authentication/authorization sign-in by github account.
 
 `.env` requirements (where applicable)
 
 * `PORT` - 3000
 * `MONGODB_URI` - 'mongodb://localhost:27017/class11'
+* `SECRET` - ************
+* `CLIENT_ID` - ********************
+* `CLIENT_SECRET` - ****************************************
+* `API_SERVER` - http://localhost:3000/oauth
 
 #### How to initialize/run your application (where applicable)
 run `npm test` to check all test.
@@ -29,4 +33,4 @@ run `npm test` to check all test.
 
   # UML
 
-  ![](./assets/class11.jpeg)
+  ![](./assets/class12.jpeg)
