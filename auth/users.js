@@ -45,13 +45,32 @@ User.methods.passwordComparator = function (pass) {
     });
 };
 
-User.methods.tokenGenerator = function (user) {
+User.statics.tokenGenerator = function (user) {
   let token = {
     id: user._id,
   };
+  // let token = jwt.sign({ username: user.username}, process.env.SECRET, { expiresIn: 60 * 15});
   return jwt.sign(token, SECRET);
 };
 
+User.statics.list = async function () {
+  let result = await this.find({});
+  return result;
+};
+
+User.statics.authenticateToken = async function (token) {
+  try {
+      let tokenObject = jwt.verify(token, process.env.SECRET);
+
+      if (tokenObject.username) {
+          return Promise.resolve(tokenObject);
+      } else {
+          return Promise.reject();
+      }
+  } catch (e) {
+      return Promise.reject();
+  }
+};
 
 module.exports = mongoose.model('User', User);
 

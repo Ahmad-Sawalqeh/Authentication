@@ -14,6 +14,7 @@ module.exports = (req, res, next) => {
   let basic = req.headers.authorization.split(' ').pop();
   let [user, pass] = base64.decode(basic).split(':');
   let auth = { user, pass };
+  console.log('basic auth => ', basic);
   User.authenticater(auth)
     .then(validUser => {
       req.token = User.tokenGenerator(validUser);
