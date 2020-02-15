@@ -10,13 +10,36 @@ const router = express.Router();
 const basicAuth = require('./basic-mid-auth.js');
 const oauthMiddle = require('../oauth/oauth-middleware.js');
 const bearerMiddle = require('../bearer/bearer-middleware.js');
+const aclMiddle = require('../acl/acl-middleware.js');
 const User = require('./users.js');
 
 router.post('/signup', signUp);
-router.post('/signin', basicAuth, signIn);
+router.post('/signin', basicAuth, bearerMiddle, signIn);
 router.get('/users', getUser);
 router.get('/oauth', oauthMiddle, oauth);
 router.get('/user', bearerMiddle, bearer);
+
+/*******************  ACL RULES ********************/
+router.get('/readonly' , bearerMiddle , aclMiddle('read') , (req , res) => {
+  res.status(200).send('you have permission to Read Only !');
+});
+
+router.get('/create' , bearerMiddle , aclMiddle('create') , (req , res) => {
+  res.status(200).send('you have permission to Create Only !');
+});
+
+router.get('/update' , bearerMiddle , aclMiddle('update') , (req , res) => {
+  res.status(200).send('you have permission to Update !!');
+});
+
+router.get('/delete' , bearerMiddle , aclMiddle('update') , (req , res) => {
+  res.status(200).send('you have permission to Delete !');
+});
+
+router.get('/everything' , bearerMiddle , aclMiddle('superuser') , (req , res) => {
+  res.status(200).send('you have Admin privilege!!');
+});
+/***************************************/
 
 function signUp (req, res, next){
   let users = new User(req.body);
@@ -43,6 +66,7 @@ function oauth(req, res, next) {
 }
 
 function bearer(req, res, next) {
+  // console.log('bearer function req.user => ',req.usre);
   res.status(200).json(req.user);
 }
 

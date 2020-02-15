@@ -6,7 +6,7 @@
 
 ### Links and Resources
 
-- [submission PR](https://github.com/Ahmad-Sawalqeh/Authentication/pull/3)
+- [submission PR](https://github.com/Ahmad-Sawalqeh/Authentication/pull/4)
 - [ci/cd]() (GitHub Actions)
 
 ### Setup
@@ -33,4 +33,4 @@ run `npm test` to check all test.
 
   # UML
 
-  ![](./assets/class13.jpeg)
+  ![](./assets/class14.jpeg)

@@ -13,14 +13,16 @@ const jwt = require('jsonwebtoken'); // output as a json format
 const User = mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
+  rule : {type : String , require : true , enum:['read' ,'create', 'update' , 'superuser']},
 });
 
 // {
 //   "username": "ahmad",
-//   "password": "123456789"
+//   "password": "123456789",
+//   "rule": "create"
 // }
 
-let SECRET = process.env.SECRET;
+let SECRET = process.env.SECRET || 'MYOWNSECRET';
 
 User.pre('save', async function () {
   if (this.isModified('password')) {
@@ -31,10 +33,16 @@ User.pre('save', async function () {
 
 User.statics.authenticater = function (auth) {
   let query = { username: auth.user };
+  // console.log('statics.authenticater query => ',auth);
   return this.findOne(query)
     .then(user => {
+      // console.log('user from DB => ',user);
       return user.passwordComparator(auth.pass);
+      // return bcrypt.compare(auth.pass, this.password);
     })
+    // .then(valid => {
+    //   return valid ? this : null;
+    // })
     .catch(console.error);
 };
 
@@ -48,9 +56,11 @@ User.methods.passwordComparator = function (pass) {
 User.statics.tokenGenerator = function (user) {
   let token = {
     id: user._id,
+    permission: user.rule,
   };
-  // let token = jwt.sign({ username: user.username}, process.env.SECRET, { expiresIn: 60 * 15});
-  return jwt.sign(token, SECRET);
+  // return jwt.sign({ id: user.id}, process.env.SECRET, { expiresIn: 60 * 15});
+  // return jwt.sign(token, SECRET, {expiresIn: '15m'});
+  return jwt.sign(token, SECRET );
 };
 
 User.statics.list = async function () {
@@ -60,8 +70,10 @@ User.statics.list = async function () {
 
 User.statics.authenticateToken = async function (token) {
   try {
-      let tokenObject = jwt.verify(token, process.env.SECRET);
+    // console.log('token => ',token);
+      let tokenObject = jwt.verify(token, SECRET);
 
+      // console.log('tokenObject => ',tokenObject);
       if (tokenObject.username) {
           return Promise.resolve(tokenObject);
       } else {

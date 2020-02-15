@@ -18,6 +18,7 @@ module.exports = (req, res, next) => {
   User.authenticater(auth)
     .then(validUser => {
       req.token = User.tokenGenerator(validUser);
+      console.log('req.token => ',req.token);
       next();
     })
     .catch(() => next('invalid login'));
